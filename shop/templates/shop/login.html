@@ -1,0 +1,100 @@
+{% extends 'shop/base.html' %}
+{% block content %}
+<style>
+  .auth-container {
+    max-width: 420px;
+    margin: 3rem auto;
+  }
+  
+  .auth-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .auth-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gradient);
+  }
+  
+  .auth-card h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.8rem;
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+  
+  .auth-card .subtitle {
+    text-align: center;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+  }
+  
+  .auth-card form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+  
+  .auth-card .form-group label {
+    margin-bottom: 0.5rem;
+  }
+  
+  .auth-card .btn-primary {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.05rem;
+    margin-top: 0.5rem;
+  }
+  
+  .auth-footer {
+    text-align: center;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    color: var(--text-secondary);
+  }
+  
+  .auth-footer a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  
+  .auth-footer a:hover {
+    text-decoration: underline;
+  }
+</style>
+
+<div class="auth-container">
+  <div class="auth-card">
+    <h2>🔑 Iniciar Sesión</h2>
+    <p class="subtitle">Ingresá a tu cuenta para continuar</p>
+    
+    <form method="POST">
+      {% csrf_token %}
+      <div class="form-group">
+        <label>Usuario</label>
+        <input type="text" name="username" placeholder="Tu nombre de usuario" required autofocus>
+      </div>
+      <div class="form-group">
+        <label>Contraseña</label>
+        <input type="password" name="password" placeholder="••••••••" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Ingresar</button>
+    </form>
+    
+    <div class="auth-footer">
+      ¿No tenés cuenta? <a href="{% url 'register' %}">Registrate</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SneakerVault - Zapatillas Premium</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0a0a0f;
+      --bg-card: #12121a;
+      --bg-hover: #1a1a25;
+      --accent: #00ff88;
+      --accent-dim: #00cc6a;
+      --text-primary: #ffffff;
+      --text-secondary: #8888aa;
+      --text-muted: #555566;
+      --border: #2a2a3a;
+      --danger: #ff4466;
+      --warning: #ffaa00;
+      --gradient: linear-gradient(135deg, #00ff88 0%, #00ccff 100%);
+    }
+    
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      min-height: 100vh;
+      background-image: 
+        radial-gradient(ellipse at top left, rgba(0, 255, 136, 0.05) 0%, transparent 50%),
+        radial-gradient(ellipse at bottom right, rgba(0, 204, 255, 0.05) 0%, transparent 50%);
+    }
+    
+    /* Header */
+    header {
+      background: rgba(10, 10, 15, 0.95);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .header-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+    }
+    
+    .logo-icon {
+      font-size: 1.8rem;
+      filter: drop-shadow(0 0 10px rgba(0, 255, 136, 0.5));
+    }
+    
+    .user-greeting {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+    .user-greeting strong {
+      color: var(--accent);
+    }
+    
+    /* Navigation */
+    nav {
+      background: var(--bg-card);
+      padding: 0.8rem 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .nav-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    
+    nav a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      padding: 0.6rem 1rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    
+    nav a:hover {
+      background: var(--bg-hover);
+      color: var(--text-primary);
+    }
+    
+    nav a.active {
+      background: var(--accent);
+      color: var(--bg-dark);
+    }
+    
+    .nav-badge {
+      background: var(--danger);
+      color: white;
+      border-radius: 50%;
+      padding: 2px 7px;
+      font-size: 0.7rem;
+      font-weight: 600;
+    }
+    
+    .nav-separator {
+      width: 1px;
+      height: 20px;
+      background: var(--border);
+      margin: 0 0.5rem;
+    }
+    
+    .nav-dashboard {
+      background: var(--gradient) !important;
+      color: var(--bg-dark) !important;
+      font-weight: 600;
+    }
+    
+    /* Container */
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    
+    /* Messages */
+    .messages {
+      list-style: none;
+      margin-bottom: 1.5rem;
+    }
+    
+    .messages li {
+      padding: 1rem 1.5rem;
+      border-radius: 12px;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      animation: slideIn 0.3s ease;
+    }
+    
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .messages .success {
+      background: rgba(0, 255, 136, 0.1);
+      border: 1px solid rgba(0, 255, 136, 0.3);
+      color: var(--accent);
+    }
+    
+    .messages .error {
+      background: rgba(255, 68, 102, 0.1);
+      border: 1px solid rgba(255, 68, 102, 0.3);
+      color: var(--danger);
+    }
+    
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.7rem 1.4rem;
+      border: none;
+      border-radius: 10px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+    
+    .btn-primary {
+      background: var(--gradient);
+      color: var(--bg-dark);
+    }
+    
+    .btn-primary:hover {
+      box-shadow: 0 0 25px rgba(0, 255, 136, 0.4);
+      transform: translateY(-2px);
+    }
+    
+    .btn-secondary {
+      background: var(--bg-hover);
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+    }
+    
+    .btn-secondary:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    
+    .btn-danger {
+      background: rgba(255, 68, 102, 0.2);
+      color: var(--danger);
+      border: 1px solid rgba(255, 68, 102, 0.3);
+    }
+    
+    .btn-danger:hover {
+      background: var(--danger);
+      color: white;
+    }
+    
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--accent);
+      color: var(--accent);
+    }
+    
+    .btn-outline:hover {
+      background: var(--accent);
+      color: var(--bg-dark);
+    }
+    
+    /* Forms */
+    input, select, textarea {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      background: var(--bg-hover);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text-primary);
+      font-family: 'Outfit', sans-serif;
+      font-size: 1rem;
+      transition: all 0.2s ease;
+    }
+    
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.1);
+    }
+    
+    input::placeholder { color: var(--text-muted); }
+    
+    label {
+      display: block;
+      margin-bottom: 0.4rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    
+    /* Cards */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 30px rgba(0, 255, 136, 0.1);
+    }
+    
+    /* Page Titles */
+    .page-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .page-title span {
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    /* Stars */
+    .stars { color: var(--warning); }
+    
+    /* Utilities */
+    .text-accent { color: var(--accent); }
+    .text-muted { color: var(--text-muted); }
+    .text-secondary { color: var(--text-secondary); }
+    .mb-1 { margin-bottom: 0.5rem; }
+    .mb-2 { margin-bottom: 1rem; }
+    .mb-3 { margin-bottom: 1.5rem; }
+    
+    /* Footer glow effect */
+    body::after {
+      content: '';
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60%;
+      height: 200px;
+      background: radial-gradient(ellipse, rgba(0, 255, 136, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: -1;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <a href="{% url 'product_list' %}" class="logo">
+        <span class="logo-icon">👟</span>
+        SneakerVault
+      </a>
+      {% if user.is_authenticated %}
+        <span class="user-greeting">Hola, <strong>{{ user.username }}</strong></span>
+      {% endif %}
+    </div>
+  </header>
+  
+  <nav>
+    <div class="nav-content">
+      <a href="{% url 'product_list' %}">🏠 Inicio</a>
+      <a href="{% url 'cart_view' %}">🛒 Carrito</a>
+      
+      {% if user.is_authenticated %}
+        <a href="{% url 'wishlist' %}">💚 Favoritos</a>
+        <a href="{% url 'notifications' %}">
+          🔔 Alertas
+          <span class="nav-badge" id="notif-count" style="display: none;">0</span>
+        </a>
+        
+        <span class="nav-separator"></span>
+        
+        <a href="{% url 'profile' %}">👤 Mi Cuenta</a>
+        <a href="{% url 'order_history' %}">📦 Pedidos</a>
+        
+        {% if user.is_staff %}
+          <a href="{% url 'admin_dashboard' %}" class="nav-dashboard">📊 Dashboard</a>
+        {% endif %}
+        
+        <span class="nav-separator"></span>
+        <a href="{% url 'logout' %}">🚪 Salir</a>
+      {% else %}
+        <span class="nav-separator"></span>
+        <a href="{% url 'login' %}">🔑 Ingresar</a>
+        <a href="{% url 'register' %}" class="btn-primary" style="color: var(--bg-dark);">Crear Cuenta</a>
+      {% endif %}
+    </div>
+  </nav>
+  
+  <div class="container">
+    {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+        <li class="{{ message.tags }}">
+          {% if message.tags == 'success' %}✓{% else %}⚠{% endif %}
+          {{ message }}
+        </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    
+    {% block content %}{% endblock %}
+  </div>
+
+  <script>
+    {% if user.is_authenticated %}
+    function updateNotificationCount() {
+      fetch('{% url "get_unread_count" %}')
+        .then(r => r.json())
+        .then(data => {
+          const badge = document.getElementById('notif-count');
+          if (data.count > 0) {
+            badge.textContent = data.count;
+            badge.style.display = 'inline';
+          } else {
+            badge.style.display = 'none';
+          }
+        });
+    }
+    updateNotificationCount();
+    setInterval(updateNotificationCount, 30000);
+    {% endif %}
+  </script>
+</body>
+</html>

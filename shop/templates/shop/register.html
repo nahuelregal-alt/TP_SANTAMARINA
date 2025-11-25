@@ -1,0 +1,118 @@
+{% extends 'shop/base.html' %}
+{% block content %}
+<style>
+  .auth-container {
+    max-width: 420px;
+    margin: 3rem auto;
+  }
+  
+  .auth-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .auth-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gradient);
+  }
+  
+  .auth-card h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.8rem;
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+  
+  .auth-card .subtitle {
+    text-align: center;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+  }
+  
+  .auth-card form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .auth-card .form-group label {
+    margin-bottom: 0.4rem;
+  }
+  
+  .auth-card .form-group input {
+    margin-bottom: 0;
+  }
+  
+  .auth-card .errorlist {
+    list-style: none;
+    padding: 0;
+    margin: 0.3rem 0 0 0;
+  }
+  
+  .auth-card .errorlist li {
+    color: var(--danger);
+    font-size: 0.85rem;
+  }
+  
+  .auth-card .btn-primary {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.05rem;
+    margin-top: 0.5rem;
+  }
+  
+  .auth-footer {
+    text-align: center;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    color: var(--text-secondary);
+  }
+  
+  .auth-footer a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  
+  .auth-footer a:hover {
+    text-decoration: underline;
+  }
+</style>
+
+<div class="auth-container">
+  <div class="auth-card">
+    <h2>📝 Crear Cuenta</h2>
+    <p class="subtitle">Unite a SneakerVault</p>
+    
+    <form method="POST">
+      {% csrf_token %}
+      {% for field in form %}
+        <div class="form-group">
+          <label>{{ field.label }}</label>
+          {{ field }}
+          {% if field.errors %}
+            <ul class="errorlist">
+              {% for error in field.errors %}<li>{{ error }}</li>{% endfor %}
+            </ul>
+          {% endif %}
+        </div>
+      {% endfor %}
+      <button type="submit" class="btn btn-primary">Crear Cuenta</button>
+    </form>
+    
+    <div class="auth-footer">
+      ¿Ya tenés cuenta? <a href="{% url 'login' %}">Iniciá sesión</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

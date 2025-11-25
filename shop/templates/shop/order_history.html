@@ -1,0 +1,156 @@
+{% extends 'shop/base.html' %}
+{% block content %}
+<style>
+  .orders-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .order-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.2s ease;
+  }
+  
+  .order-card:hover {
+    border-color: var(--text-muted);
+  }
+  
+  .order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 1.5rem;
+    background: var(--bg-hover);
+    border-bottom: 1px solid var(--border);
+  }
+  
+  .order-header .order-id {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+  }
+  
+  .order-header .date {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+  }
+  
+  .order-status {
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+  
+  .status-pending { background: rgba(255, 170, 0, 0.2); color: var(--warning); }
+  .status-paid { background: rgba(0, 204, 255, 0.2); color: #00ccff; }
+  .status-confirmed { background: rgba(0, 255, 136, 0.2); color: var(--accent); }
+  .status-shipped { background: rgba(100, 100, 255, 0.2); color: #8888ff; }
+  .status-delivered { background: rgba(0, 255, 136, 0.3); color: var(--accent); }
+  .status-cancelled { background: rgba(255, 68, 102, 0.2); color: var(--danger); }
+  
+  .order-body {
+    padding: 1.2rem 1.5rem;
+  }
+  
+  .order-items {
+    margin-bottom: 1rem;
+  }
+  
+  .order-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border);
+  }
+  
+  .order-item:last-child { border-bottom: none; }
+  
+  .order-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+  }
+  
+  .order-total {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  
+  .empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+  }
+  
+  .empty-state .icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+  }
+  
+  .empty-state h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    margin-bottom: 0.5rem;
+  }
+  
+  .empty-state p {
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+  }
+</style>
+
+<h1 class="page-title">📦 <span>Mis Pedidos</span></h1>
+
+{% if orders %}
+<div class="orders-list">
+  {% for order in orders %}
+    <div class="order-card">
+      <div class="order-header">
+        <div>
+          <span class="order-id">Orden #{{ order.id }}</span>
+          <span class="date"> · {{ order.created_at|date:"d/m/Y H:i" }}</span>
+        </div>
+        <span class="order-status status-{{ order.status }}">{{ order.get_status_display }}</span>
+      </div>
+      
+      <div class="order-body">
+        <div class="order-items">
+          {% for item in order.items.all %}
+            <div class="order-item">
+              <span>{{ item.quantity }}× {{ item.product.name }}</span>
+              <span>${{ item.subtotal|floatformat:0 }}</span>
+            </div>
+          {% endfor %}
+        </div>
+        
+        <div class="order-footer">
+          <a href="{% url 'export_order_pdf' order.id %}" class="btn btn-secondary" style="padding: 0.5rem 1rem;">
+            📄 Descargar PDF
+          </a>
+          <span class="order-total">${{ order.total|floatformat:0 }}</span>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+{% else %}
+<div class="empty-state">
+  <div class="icon">📦</div>
+  <h3>No tenés pedidos aún</h3>
+  <p>Cuando realices una compra, aparecerá aquí</p>
+  <a href="{% url 'product_list' %}" class="btn btn-primary">Explorar Productos</a>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,242 @@
+{% extends 'shop/base.html' %}
+{% block content %}
+<style>
+  .confirmation-container {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .confirmation-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 3rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .confirmation-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gradient);
+  }
+  
+  .success-icon {
+    width: 80px;
+    height: 80px;
+    background: rgba(0, 255, 136, 0.1);
+    border: 2px solid var(--accent);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    margin: 0 auto 1.5rem;
+    animation: pulse 2s infinite;
+  }
+  
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.4); }
+    50% { box-shadow: 0 0 0 15px rgba(0, 255, 136, 0); }
+  }
+  
+  .confirmation-card h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 2rem;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+  
+  .confirmation-card .greeting {
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+  }
+  
+  .order-number {
+    background: var(--bg-hover);
+    border: 1px solid var(--border);
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    display: inline-block;
+    margin-bottom: 2rem;
+  }
+  
+  .order-number .label {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-bottom: 0.3rem;
+  }
+  
+  .order-number .number {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  
+  .order-details {
+    text-align: left;
+    background: var(--bg-hover);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .order-details h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+  }
+  
+  .detail-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  
+  .detail-row:last-child { border-bottom: none; }
+  
+  .detail-row .label { color: var(--text-secondary); }
+  .detail-row .value { font-weight: 500; }
+  
+  .order-items {
+    text-align: left;
+    margin: 1.5rem 0;
+  }
+  
+  .order-items h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.8rem;
+  }
+  
+  .order-items ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .order-items li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .order-items li:last-child { border-bottom: none; }
+  
+  .order-total {
+    text-align: right;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 2px solid var(--border);
+  }
+  
+  .order-total .discount {
+    color: var(--accent);
+    margin-bottom: 0.3rem;
+  }
+  
+  .order-total .total {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+  
+  .email-notice {
+    background: rgba(0, 255, 136, 0.1);
+    border: 1px solid rgba(0, 255, 136, 0.2);
+    padding: 1rem;
+    border-radius: 10px;
+    margin-bottom: 1.5rem;
+    color: var(--accent);
+    font-size: 0.95rem;
+  }
+  
+  .action-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  .action-buttons .btn {
+    min-width: 150px;
+  }
+</style>
+
+<div class="confirmation-container">
+  <div class="confirmation-card">
+    <div class="success-icon">✓</div>
+    
+    <h1>¡Pedido Confirmado!</h1>
+    <p class="greeting">Gracias por tu compra, {{ order.full_name }}</p>
+    
+    <div class="order-number">
+      <div class="label">Número de orden</div>
+      <div class="number">#{{ order.id }}</div>
+    </div>
+    
+    <div class="order-details">
+      <h3>Detalles del envío</h3>
+      <div class="detail-row">
+        <span class="label">Fecha</span>
+        <span class="value">{{ order.created_at|date:"d/m/Y H:i" }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Dirección</span>
+        <span class="value">{{ order.address }}, {{ order.city }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Teléfono</span>
+        <span class="value">{{ order.phone }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Método de pago</span>
+        <span class="value">{{ order.get_payment_method_display }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Estado</span>
+        <span class="value" style="color: var(--accent);">{{ order.get_status_display }}</span>
+      </div>
+    </div>
+    
+    <div class="order-items">
+      <h3>Productos</h3>
+      <ul>
+        {% for item in order.items.all %}
+          <li>
+            <span>{{ item.quantity }}× {{ item.product.name }}</span>
+            <span>${{ item.subtotal|floatformat:0 }}</span>
+          </li>
+        {% endfor %}
+      </ul>
+      
+      <div class="order-total">
+        {% if order.discount > 0 %}
+          <div class="discount">Descuento: -${{ order.discount|floatformat:0 }}</div>
+        {% endif %}
+        <div class="total">Total: ${{ order.total|floatformat:0 }}</div>
+      </div>
+    </div>
+    
+    {% if email_sent %}
+      <div class="email-notice">
+        📧 Enviamos la confirmación a <strong>{{ user.email }}</strong>
+      </div>
+    {% endif %}
+    
+    <div class="action-buttons">
+      <a href="{% url 'export_order_pdf' order.id %}" class="btn btn-secondary">📄 Descargar PDF</a>
+      <a href="{% url 'product_list' %}" class="btn btn-primary">Seguir Comprando</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

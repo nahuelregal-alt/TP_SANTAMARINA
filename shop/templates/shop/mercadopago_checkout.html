@@ -1,0 +1,138 @@
+{% extends 'shop/base.html' %}
+{% block content %}
+<style>
+  .mp-container {
+    max-width: 480px;
+    margin: 2rem auto;
+  }
+  
+  .mp-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 2.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .mp-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #009ee3 0%, #00b1ea 100%);
+  }
+  
+  .mp-logo {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #009ee3 0%, #00b1ea 100%);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    margin: 0 auto 1.5rem;
+  }
+  
+  .mp-card h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.8rem;
+    color: #00b1ea;
+    margin-bottom: 0.5rem;
+  }
+  
+  .mp-card .subtitle {
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+  }
+  
+  .order-amount {
+    background: var(--bg-hover);
+    border: 1px solid var(--border);
+    padding: 1.5rem;
+    border-radius: 16px;
+    margin-bottom: 2rem;
+  }
+  
+  .order-amount .label {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 0.3rem;
+  }
+  
+  .order-amount .amount {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  
+  .mp-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .btn-mp {
+    background: linear-gradient(135deg, #009ee3 0%, #00b1ea 100%);
+    color: white;
+    padding: 1.2rem;
+    border: none;
+    border-radius: 12px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+    transition: all 0.2s ease;
+  }
+  
+  .btn-mp:hover {
+    box-shadow: 0 0 25px rgba(0, 177, 234, 0.4);
+    transform: translateY(-2px);
+  }
+  
+  .test-notice {
+    background: rgba(255, 170, 0, 0.1);
+    border: 1px solid rgba(255, 170, 0, 0.3);
+    color: var(--warning);
+    padding: 1rem;
+    border-radius: 10px;
+    margin-top: 2rem;
+    font-size: 0.9rem;
+  }
+</style>
+
+<div class="mp-container">
+  <div class="mp-card">
+    <div class="mp-logo">🔵</div>
+    
+    <h2>MercadoPago</h2>
+    <p class="subtitle">Orden #{{ order.id }}</p>
+    
+    <div class="order-amount">
+      <div class="label">Total a pagar</div>
+      <div class="amount">${{ order.total|floatformat:0 }}</div>
+    </div>
+    
+    <div class="mp-buttons">
+      <a href="{% url 'mercadopago_success' order.id %}" class="btn-mp">
+        ✓ Simular Pago Exitoso
+      </a>
+      <a href="{% url 'mercadopago_failure' order.id %}" class="btn btn-danger" style="padding: 1rem;">
+        ✕ Simular Pago Fallido
+      </a>
+    </div>
+    
+    <div class="test-notice">
+      ⚠️ <strong>Modo de prueba</strong><br>
+      En producción, aquí aparecería el checkout real de MercadoPago
+    </div>
+  </div>
+</div>
+{% endblock %}

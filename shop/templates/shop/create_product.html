@@ -1,0 +1,84 @@
+{% extends 'shop/base.html' %}
+{% block content %}
+<style>
+  .form-container {
+    max-width: 600px;
+  }
+  
+  .form-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2rem;
+  }
+  
+  .form-card h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+  
+  .form-card form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .form-card .btn-primary {
+    margin-top: 1rem;
+    padding: 1rem;
+  }
+  
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    margin-bottom: 1.5rem;
+    transition: color 0.2s;
+  }
+  
+  .back-link:hover { color: var(--accent); }
+</style>
+
+<a href="{% url 'product_list' %}" class="back-link">← Volver al catálogo</a>
+
+<div class="form-container">
+  <div class="form-card">
+    <h2>➕ Agregar Producto</h2>
+    
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      
+      <div>
+        <label>Nombre del producto</label>
+        <input type="text" name="name" required>
+      </div>
+      
+      <div>
+        <label>Descripción</label>
+        <textarea name="description" rows="4" placeholder="Descripción del producto..."></textarea>
+      </div>
+      
+      <div>
+        <label>Precio</label>
+        <input type="number" name="price" step="0.01" required>
+      </div>
+      
+      <div>
+        <label>Categoría</label>
+        {{ form.category }}
+      </div>
+      
+      <div>
+        <label>Imagen</label>
+        <input type="file" name="image" accept="image/*">
+      </div>
+      
+      <button type="submit" class="btn btn-primary">Guardar Producto</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
